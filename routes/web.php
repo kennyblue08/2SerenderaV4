@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\FrontendControllers\FrontendController;
+use App\Http\Controllers\BackendControllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +18,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
+Route::get('/home', [FrontendController::class, 'index'])->name('home');
+Route::get('/schedule', [AdminController::class, 'schedule'])->name('schedule');
+
+Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+Route::post('/submit-request', [FrontendController::class, 'submitRequest'])->name('submit.request');
+Route::get('/get-all-schedule', [AdminController::class, 'schedule'])->name('/get.all.schedule');
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('backend.index');
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
